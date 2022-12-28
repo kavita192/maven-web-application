@@ -1,0 +1,28 @@
+node{
+    
+    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
+
+def mavenHome=tool name="Maven-3.8.6"
+stage('gitCode'){
+git credentialsId: 'github', url: 'https://github.com/kavita192/maven-web-application.git'
+}
+
+stage('Build'){
+sh "${mavenHome}/bin/mvn clean package"
+}
+
+stage('ExecuteSonarQubeReport'){
+sh "${mavenHome}/bin/mvn clean sonar:sonar package"
+}
+
+stage('UploadArtifactsIntoRepository'){
+sh "${mavenHome}/bin/mvn clean package deploy"
+}
+
+stage('DeployIntoTomcat'){
+sshagent(['7a9f0a96-1e14-4292-b15f-6611d3696201']) {
+ sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.3.77:/opt/apache-tomcat-9.0.70/webapps/"  
+}
+
+}
+}
