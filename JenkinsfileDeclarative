@@ -20,7 +20,7 @@ properties([parameters([choice(choices: ['master', 'patch-1'], description: 'sel
 stages {
   stage('checkOutCode') {
     steps {
-      git branch:"${params.BranchName}"credentialsId: 'github', url: 'https://github.com/kavita192/maven-web-application.git'
+      git branch:"${params.BranchName}" credentialsId: 'github', url: 'https://github.com/kavita192/maven-web-application.git'
     }
 }
 
