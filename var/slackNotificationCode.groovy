@@ -1,5 +1,4 @@
 
-@Library('msssharedlibs') _
 
 def slackBuildNotification(String buildStatus) {
  
