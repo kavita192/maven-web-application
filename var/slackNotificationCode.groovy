@@ -1,3 +1,6 @@
+
+@Library('msssharedlibs') _
+
 def slackBuildNotification(String buildStatus) {
  
   // build status of null means successful
