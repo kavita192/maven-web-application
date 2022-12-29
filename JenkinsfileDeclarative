@@ -15,7 +15,7 @@ options {
   timestamps()
 }
 
-properties([parameters([choice(choices: ['master', 'patch-1'], description: 'select any branch', name: 'BranchName')])])
+parameters([choice(choices: ['master', 'patch-1'], description: 'select any branch', name: 'BranchName')])
 
 stages {
   stage('checkOutCode') {
